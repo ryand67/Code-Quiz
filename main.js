@@ -1,6 +1,7 @@
 //Grab divs
 var welcomePage = document.getElementById("welcomeMessage");
 var gameSpace = document.getElementById("gameSpace");
+var endSpace = document.getElementById("endgame");
 //Grab parts of page
 //Start button
 var startBtn = document.getElementById("startButton");
@@ -43,22 +44,25 @@ var questions = [
 ]
 
 //Changes the display and starts the game
-startBtn.onclick = function() {
+startBtn.addEventListener("click", playGame);
+
+//Functions
+//Initializes some variables and starts the game
+function playGame() {
+    seconds = 30;
+    endSpace.style.display = "none";
     welcomePage.style.display = "none";
     gameSpace.style.display = "flex";
     writeQuestion();
     startTimer();
 }
-
-//Functions
-
 //Starts timer and ends game when it's done
 function startTimer() {
-    //Set up the timer in here, when it hits 0 call the endgame function which will change display and reset everything basically
-    timeRemaining = setInterval(function(){
+    //Timer starts and counts down
+    var timeRemaining = setInterval(function(){
         seconds--;
         timerEl.innerHTML = "Timer: " + seconds;
-
+        //When the timer runs out stop timer, and call endGame().  It's <= because of the wrong question time penalty, it could send it into negative numbers.
         if(seconds <= 0){
             clearInterval(timeRemaining)
             endGame();
@@ -66,38 +70,83 @@ function startTimer() {
     }, 1000);
 }
 
+//Main writing function
 function writeQuestion() {
+    //Resets the game space for more questions to be printed
     questionSpace.innerHTML = "";
     answerSpace.innerHTML = "";
+    //Creates a random number to choose a random question 
     randomNum = Math.floor(Math.random() * questions.length);
+    //Creates the question heading and appends to the questionSpace div
     var qHeading = document.createElement("h1");
+    //Sets the innerHTML to the question from the randomly selected object
     qHeading.innerHTML = questions[randomNum].question;
     questionSpace.appendChild(qHeading);
+    //Runs through all of the answer options, creating clickable p tags with the right styles for each answer.  Appends to the answerSpace div.
     for(var i = 0; i < questions[randomNum].answers.length; i++) {
         var questionBtn = document.createElement("p");
         questionBtn.classList.add("answer-btn");
         questionBtn.textContent = questions[randomNum].answers[i];
+        //Adds event listener with checker function to compare answer
         questionBtn.addEventListener("click", checker);
         answerSpace.appendChild(questionBtn);
     }
+
 }
 
+//Checks the answer
 function checker(event) {
+    //If the user picks the right answer add 1 to the score, else subtract 5 seconds.
     if(event.target.innerHTML === questions[randomNum].answer) {
         score++;
     } else {
         seconds -= 5;
     }
-
+    //Removes the question from the array so there's no way to get repeats. (gets reinitialized in end game)
     questions.splice(randomNum, 1);
-
+    //If you're out of questions, end the game by ending the time(calling the function caused double calling with the timer ending up top).  If not, keep making questions.
     if(questions.length === 0) {
-        endGame();
+        seconds = 0;
     } else {
         writeQuestion();
     }
 }
 
+//Displays the end game screen
 function endGame() {
-    // gameSpace.style.display = "none";
+    endSpace.style.display = "flex";
+    //Hides the gamespace
+    gameSpace.style.display = "none";
+    //Sets the seconds to 0 to ensure the timer doesn't keep going
+    seconds = 0;
+    //Sets the timer to the static text
+    timerEl.textContent = "Timer:";
+
+    //Creates the header of the end screen
+    var endHeading = document.createElement("h1");
+    endHeading.textContent = "Game Over!";
+    endSpace.appendChild(endHeading);
+
+    //Displays the line that shows the user's end score
+    var scoreLine = document.createElement("h2");
+    scoreLine.textContent = "Nice!  Your score was: " + score;
+    endSpace.appendChild(scoreLine);
+
+    //Creates the div that the buttons will be stored in 
+    var buttonDivEl = document.createElement("div");
+    buttonDivEl.classList.add("end-btn-div");
+    endSpace.appendChild(buttonDivEl);
+
+    //Button triggers the game to go again
+    var playAgainBtnEl = document.createElement("button");
+    playAgainBtnEl.classList.add("btn", "start-btn", "end-btn");
+    playAgainBtnEl.textContent = "Play Again";
+    playAgainBtnEl.addEventListener("click", playGame);
+    buttonDivEl.appendChild(playAgainBtnEl);
+
+    //Button let's the user store their name and score
+    var addScoreBtnEl = document.createElement("button");
+    addScoreBtnEl.classList.add("btn", "start-btn", "end-btn");
+    addScoreBtnEl.textContent = "Add Score";
+    buttonDivEl.appendChild(addScoreBtnEl);
 }
