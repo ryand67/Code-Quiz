@@ -1,11 +1,12 @@
 //Grab divs
 var welcomePage = document.getElementById("welcomeMessage");
 var gameSpace = document.getElementById("gameSpace");
-//Grab buttons
+//Grab parts of page
 //Start button
 var startBtn = document.getElementById("startButton");
 //Question Space
 var questionSpace = document.getElementById("questionSpace");
+var answerSpace = document.getElementById("answerSpace");
 //Choice buttons
 var choiceA = document.getElementById("choiceA");
 var choiceB = document.getElementById("choiceB");
@@ -14,24 +15,30 @@ var choiceD = document.getElementById("choiceD");
 //Timer
 var timerEl = document.getElementById("timer");
 // Other variables
+var highScores = [];
 var score = 0;
+var seconds = 30;
+var ranodmNum = 0;
 
 //Array of question objects
 var questions = [
     {
         question: 'HTML stands for:',
-        a: 'Henrys Totally Mean Lizard',
-        b: 'Hypertext Markup Language',
-        c: 'Hypertext Markdown Language',
-        d: 'Hypertext Markup Links',
-        answer: 'b'
+        answers: [
+        'Henrys Totally Mean Lizard',
+        'Hypertext Markup Language',
+        'Hypertext Markdown Language',
+        'Hypertext Markup Links'],
+        answer: 'Hypertext Markup Language'
     },
     {
         question: 'CSS stands for:',
-        a: 'Cascading Style Sheets',
-        b: 'Cool Styling Syntax',
-        c: 'Colors, Styles, Serif',
-        d: 'Code Scripting Service'
+        answers: [
+        'Cascading Style Sheets',
+        'Cool Styling Syntax',
+        'Colors, Styles, Serif',
+        'Code Scripting Service'],
+        answer: 'Cascading Style Sheets'
     }
 ]
 
@@ -39,13 +46,12 @@ var questions = [
 startBtn.onclick = function() {
     welcomePage.style.display = "none";
     gameSpace.style.display = "flex";
-    playGame();
+    writeQuestion();
     startTimer();
 }
 
 //Functions
 
-var seconds = 30;
 //Starts timer and ends game when it's done
 function startTimer() {
     //Set up the timer in here, when it hits 0 call the endgame function which will change display and reset everything basically
@@ -53,23 +59,43 @@ function startTimer() {
         seconds--;
         timerEl.innerHTML = "Timer: " + seconds;
 
-        if(seconds === 0){
+        if(seconds <= 0){
             clearInterval(timeRemaining)
             endGame();
         }
     }, 1000);
 }
 
-//Plays the game
-function playGame() {
-    //Picks a random question out of the array
-    var randomQuestionNum = Math.floor(Math.random() * questions.length);
-    //Sets the text up on the page
-    questionSpace.innerHTML = questions[randomQuestionNum].question;
-    choiceA.innerHTML = questions[randomQuestionNum].a;
-    choiceB.innerHTML = questions[randomQuestionNum].b;
-    choiceC.innerHTML = questions[randomQuestionNum].c;
-    choiceD.innerHTML = questions[randomQuestionNum].d;
+function writeQuestion() {
+    questionSpace.innerHTML = "";
+    answerSpace.innerHTML = "";
+    randomNum = Math.floor(Math.random() * questions.length);
+    var qHeading = document.createElement("h1");
+    qHeading.innerHTML = questions[randomNum].question;
+    questionSpace.appendChild(qHeading);
+    for(var i = 0; i < questions[randomNum].answers.length; i++) {
+        var questionBtn = document.createElement("p");
+        questionBtn.classList.add("answer-btn");
+        questionBtn.textContent = questions[randomNum].answers[i];
+        questionBtn.addEventListener("click", checker);
+        answerSpace.appendChild(questionBtn);
+    }
+}
+
+function checker(event) {
+    if(event.target.innerHTML === questions[randomNum].answer) {
+        score++;
+    } else {
+        seconds -= 5;
+    }
+
+    questions.splice(randomNum, 1);
+
+    if(questions.length === 0) {
+        endGame();
+    } else {
+        writeQuestion();
+    }
 }
 
 function endGame() {
