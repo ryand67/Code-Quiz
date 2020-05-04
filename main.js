@@ -20,9 +20,10 @@ var highScores = [];
 var score = 0;
 var seconds = 30;
 var ranodmNum = 0;
+var questions = [];
 
-//Array of question objects
-var questions = [
+//Default array of question objects
+var questionsNew = [
     {
         question: 'HTML stands for:',
         answers: [
@@ -50,12 +51,21 @@ startBtn.addEventListener("click", playGame);
 //Initializes some variables and starts the game
 function playGame() {
     seconds = 30;
-    endSpace.style.display = "none";
+    score = 0;
+    endSpace.innerHTML = "";
     welcomePage.style.display = "none";
     gameSpace.style.display = "flex";
+    resetArray();
     writeQuestion();
     startTimer();
 }
+
+function resetArray() {
+    for(var i = 0; i < questionsNew.length; i++) {
+        questions[i] = questionsNew[i];
+    }
+}
+
 //Starts timer and ends game when it's done
 function startTimer() {
     //Timer starts and counts down
@@ -148,5 +158,27 @@ function endGame() {
     var addScoreBtnEl = document.createElement("button");
     addScoreBtnEl.classList.add("btn", "start-btn", "end-btn");
     addScoreBtnEl.textContent = "Add Score";
+    addScoreBtnEl.addEventListener("click", addScoreToList);
     buttonDivEl.appendChild(addScoreBtnEl);
+}
+
+//Creates the form for score entering
+function addScoreToList() {
+    //Form container of sorts
+    var formEl = document.createElement("form");
+    formEl.classList.add("hs-form");
+    endSpace.appendChild(formEl);
+    //Text input
+    var nameInputEl = document.createElement("input");
+    nameInputEl.setAttribute("placeholder", "Enter Initials Here")
+    nameInputEl.classList.add("hs-input");
+    formEl.appendChild(nameInputEl);
+    //Submit button
+    var scoreSubmitBtnEl = document.createElement("button");
+    scoreSubmitBtnEl.classList.add("btn", "submit-btn", "start-btn");
+    scoreSubmitBtnEl.textContent = "+";
+    scoreSubmitBtnEl.addEventListener("click", function(){
+        
+    });
+    formEl.appendChild(scoreSubmitBtnEl);
 }

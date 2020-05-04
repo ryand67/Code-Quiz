@@ -100,6 +100,10 @@ main h1 {
     /* display: none; */
 }
 
+.welcome-message p {
+    margin: 1em;
+}
+
 
 /* Game Space Style */
 .game-space {
@@ -146,11 +150,31 @@ hr {
 .end-btn-div {
     width: 50%;
     margin: 1em auto;
-    height: 3.5em;
     display: flex;
     flex-direction: column;
 }
 
 .end-btn {
     margin: .5em auto;
+}
+
+/* Highscore Input Styles */
+.hs-form {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.hs-input {
+    width: 100%;
+    margin-right: 10px;
+    height: 4em;
+    padding: 0 1.5em;
+    border: 2px solid var(--dark-color);
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border-radius: 15px;
+    outline: none;
+    text-transform: uppercase;
 }
