@@ -44,6 +44,7 @@ header {
     cursor: pointer;
     border: none;
     border-radius: 20px;
+    outline: none;
 }
 
 .highscore-btn {
@@ -87,10 +88,16 @@ main h1 {
 
 /* Welcome Div Style */
 .welcome-message {
-    display: none;
+    display: static;
 }
 
+
 /* Game Space Style */
+.game-space {
+    display: none;
+    flex-direction: column;
+}
+
 .game-space h1 {
     color: var(--dark-color);
 }
@@ -111,6 +118,7 @@ hr {
     width: 75%;
     cursor: pointer;
     transition: all .3s ease;
+    outline: none;
 }
 
 .answer-btn:hover {

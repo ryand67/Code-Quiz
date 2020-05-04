@@ -11,11 +11,12 @@
     <!-- Script -->
     <script src="main.js" defer></script>
 </head>
+
 <body>
     <!-- Header with high score button and timer-->
     <header>
         <button class="highscore-btn btn" id="highscoreButton">View HighScores</button>
-        <h3 class="timer" id="timer">Timer:</h3>
+        <h3 class="timer" id="timer">Timer: 30</h3>
     </header>
 
     <!-- Main container for everything -->
@@ -24,16 +25,21 @@
         <div class="welcome-message" id="welcomeMessage">
             <h1>Welcome!</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint vitae ducimus ipsam, quaerat atque accusantium ab quidem sapiente illo porro, hic praesentium quisquam eum sed odit magni sunt laborum quia odio. Non ut molestiae perferendis quod. Nostrum error vel impedit vero illum nobis, provident fugiat dignissimos esse qui sint eius.</p>
-            <button class="btn start-btn">Take Quiz</button>
+            <button class="btn start-btn" id="startButton">Take Quiz</button>
         </div>
 
+        <!-- Div where the game will actually take place -->
         <div class="game-space" id="gameSpace">
+            <!-- Where the question will pop up -->
             <h1 class="question" id="questionSpace">This is a question?</h1>
             <hr>
+            <!-- Answer choices -->
             <p class="answer-btn a" id="choiceA">This is an answer choice</p>
             <p class="answer-btn b" id="choiceB">This is an answer choice</p>
             <p class="answer-btn c" id="choiceC">This is an answer choice</p>
             <p class="answer-btn d" id="choiceD">This is an answer choice</p>
+            <!-- Right or wrong -->
+
         </div>
     </main>
 </body>
