@@ -16,11 +16,17 @@ var choiceD = document.getElementById("choiceD");
 //Timer
 var timerEl = document.getElementById("timer");
 // Other variables
-var highScores = [];
 var score = 0;
 var seconds = 30;
 var ranodmNum = 0;
 var questions = [];
+var highScores;
+
+if(localStorage.getItem("highScores") === null) {
+    highScores = [];
+} else {
+    highScores = JSON.parse(localStorage.getItem("highScores"));
+}
 
 //Default array of question objects
 var questionsNew = [
@@ -60,6 +66,7 @@ function playGame() {
     startTimer();
 }
 
+//Resets the questions array.  The array gets questions removed as the game goes so it needs to be reset.
 function resetArray() {
     for(var i = 0; i < questionsNew.length; i++) {
         questions[i] = questionsNew[i];
@@ -158,7 +165,11 @@ function endGame() {
     var addScoreBtnEl = document.createElement("button");
     addScoreBtnEl.classList.add("btn", "start-btn", "end-btn");
     addScoreBtnEl.textContent = "Add Score";
+    //Calls the addScoreToList function and removes add score button
     addScoreBtnEl.addEventListener("click", addScoreToList);
+    addScoreBtnEl.addEventListener("click", function(){
+        addScoreBtnEl.remove();
+    });
     buttonDivEl.appendChild(addScoreBtnEl);
 }
 
@@ -179,9 +190,18 @@ function addScoreToList() {
     scoreSubmitBtnEl.classList.add("btn", "submit-btn", "start-btn");
     scoreSubmitBtnEl.textContent = "+";
     //Button adds the initials and score to the highscores array
-    scoreSubmitBtnEl.addEventListener("click", function(){
-        event.preventDefault();
-        highScores[highScores.length] = nameInputEl.value.toUpperCase() + ": " + score;
-    });
     formEl.appendChild(scoreSubmitBtnEl);
+    scoreSubmitBtnEl.addEventListener("click", function(){
+        //Don't refresh
+        event.preventDefault();
+        //Create object with initials and score
+        var user = {
+            initials: nameInputEl.value.toUpperCase(),
+            userScore: score
+        }
+        highScores[highScores.length] = user;
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+        formEl.remove();
+        addScoreBtnEl.remove();
+    });
 }
