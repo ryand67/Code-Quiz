@@ -312,6 +312,7 @@ function addScoreToList() {
 highScoresBtnEl.addEventListener("click", viewHighScores);
 
 function viewHighScores() {
+    highScoreSpace.innerHTML = "";
     //If the game is not done, don't do anything
     if(seconds !== 0) {
         return;
