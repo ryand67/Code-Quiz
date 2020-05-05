@@ -178,3 +178,19 @@ hr {
     outline: none;
     text-transform: uppercase;
 }
+
+/* High Scores */
+.high-score-div {
+    width: 75%;
+    margin: 0 auto;
+    flex-direction: column;
+    color: var(--dark-color);
+}
+
+.high-score-div h1 {
+    font-size: 3.5rem;
+}
+
+.high-score-div h2 {
+    font-size: 3rem;
+}

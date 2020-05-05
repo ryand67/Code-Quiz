@@ -5,23 +5,22 @@ var endSpace = document.getElementById("endgame");
 //Grab parts of page
 //Start button
 var startBtn = document.getElementById("startButton");
+//View High Scores Button
+var highScoresBtnEl = document.getElementById("highScoreButton");
 //Question Space
 var questionSpace = document.getElementById("questionSpace");
 var answerSpace = document.getElementById("answerSpace");
-//Choice buttons
-var choiceA = document.getElementById("choiceA");
-var choiceB = document.getElementById("choiceB");
-var choiceC = document.getElementById("choiceC");
-var choiceD = document.getElementById("choiceD");
+var highScoreSpace = document.getElementById("highScoreSpace");
 //Timer
 var timerEl = document.getElementById("timer");
-// Other variables
+// Other game variables
 var score = 0;
-var seconds = 30;
+var seconds = 0;
 var ranodmNum = 0;
 var questions = [];
 var highScores;
 
+//If there's a highScore list stored, grab it, if not, initialize to empty array
 if(localStorage.getItem("highScores") === null) {
     highScores = [];
 } else {
@@ -59,8 +58,10 @@ function playGame() {
     seconds = 30;
     score = 0;
     endSpace.innerHTML = "";
+    highScoreSpace.innerHTML = "";
     welcomePage.style.display = "none";
     gameSpace.style.display = "flex";
+    timerEl.textContent = "Timer: 30";
     resetArray();
     writeQuestion();
     startTimer();
@@ -202,6 +203,36 @@ function addScoreToList() {
         highScores[highScores.length] = user;
         localStorage.setItem("highScores", JSON.stringify(highScores));
         formEl.remove();
-        addScoreBtnEl.remove();
     });
 }
+
+//View High Scores Button
+highScoresBtnEl.addEventListener("click", viewHighScores);
+
+function viewHighScores() {
+    //If the game is not done, don't do anything
+    if(seconds !== 0) {
+        return;
+    }
+    //Gets rid of the end page or welcome page
+    welcomePage.style.display = "none";
+    endSpace.innerHTML = "";
+    highScoreSpace.style.display = "flex";
+
+    var highScoreHeading = document.createElement("h1");
+    highScoreHeading.textContent = "3 Most Recent Scores"
+    highScoreSpace.appendChild(highScoreHeading);
+    //Creates list of 3 most recent scores
+    for(var i = 1; i < 4; i++) {
+        var highScoreListItemEl = document.createElement("h2");
+        highScoreListItemEl.textContent = i + ": "+ highScores[highScores.length - i].initials + " - " + highScores[highScores.length - i].userScore;
+        highScoreSpace.appendChild(highScoreListItemEl);
+    }
+
+    //Play again button
+    var playAgainBtnEl = document.createElement("button");
+    playAgainBtnEl.classList.add("btn", "start-btn", "end-btn");
+    playAgainBtnEl.textContent = "Play Again";
+    playAgainBtnEl.addEventListener("click", playGame);
+    highScoreSpace.appendChild(playAgainBtnEl);
+}   
