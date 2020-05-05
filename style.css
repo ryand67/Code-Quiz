@@ -147,6 +147,10 @@ hr {
     color: var(--dark-color);
 }
 
+.endgame h2 {
+    margin: 1em 0;
+}
+
 .end-btn-div {
     width: 50%;
     margin: 1em auto;
@@ -193,4 +197,44 @@ hr {
 
 .high-score-div h2 {
     font-size: 3rem;
+}
+
+@media screen and (max-width: 750px) {
+    :root {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    :root {
+        font-size: 12px;
+    }
+
+    .answer-btn {
+        width: 90%;
+    }
+
+    .game-space {
+        width: 100%;
+    }
+
+    .end-btn-div {
+        width: 75%;
+    }
+
+    .end-btn {
+        font-size: 1.5rem;
+    }
+
+    .high-score-div h1 {
+        font-size: 3rem;
+    }
+
+    .high-score-div h2 {
+        font-size: 2rem;
+    }
+
+    .hs-form {
+        width: 100%;
+    }
 }
