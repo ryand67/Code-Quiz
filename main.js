@@ -172,13 +172,16 @@ function addScoreToList() {
     var nameInputEl = document.createElement("input");
     nameInputEl.setAttribute("placeholder", "Enter Initials Here")
     nameInputEl.classList.add("hs-input");
+    nameInputEl.setAttribute("maxlength", 3);
     formEl.appendChild(nameInputEl);
     //Submit button
     var scoreSubmitBtnEl = document.createElement("button");
     scoreSubmitBtnEl.classList.add("btn", "submit-btn", "start-btn");
     scoreSubmitBtnEl.textContent = "+";
+    //Button adds the initials and score to the highscores array
     scoreSubmitBtnEl.addEventListener("click", function(){
-        
+        event.preventDefault();
+        highScores[highScores.length] = nameInputEl.value.toUpperCase() + ": " + score;
     });
     formEl.appendChild(scoreSubmitBtnEl);
 }
