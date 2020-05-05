@@ -46,6 +46,108 @@ var questionsNew = [
         'Colors, Styles, Serif',
         'Code Scripting Service'],
         answer: 'Cascading Style Sheets'
+    },
+    {
+        question: 'What symbol do you use to select an ID in CSS:',
+        answers: [
+        '.',
+        '#',
+        '!',
+        '+'],
+        answer: '#'
+    },
+    {
+        question: 'What symbol do you use to select a class in CSS:',
+        answers: [
+        '.',
+        '#',
+        '!',
+        '+'],
+        answer: '.'
+    },
+    {
+        question: 'Which HTML tag stores links and meta info:',
+        answers: [
+        '<html>',
+        '<main>',
+        '<head>',
+        '<aside>'],
+        answer: '<head>'
+    },
+    {
+        question: 'Which HTML tag adds inline styling:',
+        answers: [
+        '<style>',
+        '<main>',
+        '<head>',
+        '<aside>'],
+        answer: '<style>'
+    },
+    {
+        question: 'Which HTML tag creates a link to another page/site:',
+        answers: [
+        '<p>',
+        '<a>',
+        '<h1>',
+        '<link>'],
+        answer: '<a>'
+    },
+    {
+        question: 'Javascript is case sensitive:',
+        answers: [
+        'true',
+        'false'],
+        answer: 'true'
+    },
+    {
+        question: '<ol> tags create a list with no order:',
+        answers: [
+        'true',
+        'false'],
+        answer: 'false'
+    },
+    {
+        question: 'margin: 0 auto will center an element:',
+        answers: [
+        'true',
+        'false'],
+        answer: 'true'
+    },
+    {
+        question: 'Which HTML tag is the proper DOCTYPE declaration for an HTML page:',
+        answers: [
+        '<HTML!>',
+        '<document>',
+        '<html>',
+        '<!DOCTYPE html>'],
+        answer: '<!DOCTYPE html>'
+    },
+    {
+        question: 'Which version of CSS is the most recent:',
+        answers: [
+        'CSSE6',
+        'CSS5',
+        'CSS3',
+        'Bootstrap'],
+        answer: 'CSS3'
+    },
+    {
+        question: 'Which CSS property changes font color:',
+        answers: [
+        'font-color',
+        'color',
+        'background-color',
+        'text-color'],
+        answer: 'color'
+    },
+    {
+        question: 'Which JS concept tests conditions:',
+        answers: [
+        'for loops',
+        'variable declaration',
+        'if statements',
+        'localStorage'],
+        answer: 'if statements'
     }
 ]
 
@@ -79,7 +181,7 @@ function startTimer() {
     //Timer starts and counts down
     var timeRemaining = setInterval(function(){
         seconds--;
-        timerEl.innerHTML = "Timer: " + seconds;
+        timerEl.textContent = "Timer: " + seconds;
         //When the timer runs out stop timer, and call endGame().  It's <= because of the wrong question time penalty, it could send it into negative numbers.
         if(seconds <= 0){
             clearInterval(timeRemaining)
@@ -98,7 +200,7 @@ function writeQuestion() {
     //Creates the question heading and appends to the questionSpace div
     var qHeading = document.createElement("h1");
     //Sets the innerHTML to the question from the randomly selected object
-    qHeading.innerHTML = questions[randomNum].question;
+    qHeading.textContent = questions[randomNum].question;
     questionSpace.appendChild(qHeading);
     //Runs through all of the answer options, creating clickable p tags with the right styles for each answer.  Appends to the answerSpace div.
     for(var i = 0; i < questions[randomNum].answers.length; i++) {
@@ -115,7 +217,7 @@ function writeQuestion() {
 //Checks the answer
 function checker(event) {
     //If the user picks the right answer add 1 to the score, else subtract 5 seconds.
-    if(event.target.innerHTML === questions[randomNum].answer) {
+    if(event.target.textContent === questions[randomNum].answer) {
         score++;
     } else {
         seconds -= 5;
