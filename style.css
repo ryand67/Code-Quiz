@@ -237,4 +237,12 @@ hr {
     .hs-form {
         width: 100%;
     }
+
+    .questionSpace {
+        width: 100%;
+    }
+
+    .questionSpace h1 {
+        font-size: 2.5rem;
+    }
 }
